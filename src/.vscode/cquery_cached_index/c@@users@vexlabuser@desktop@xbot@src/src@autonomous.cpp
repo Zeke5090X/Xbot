@@ -11,5 +11,5 @@
  */
 void autonomous()
 {
-
+#include "main.h"
 }

@@ -12,7 +12,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#ifndef _PROS_MAIN_H_
+//#ifndef _PROS_MAIN_H_
 #define _PROS_MAIN_H_
 
 /**
@@ -35,7 +35,7 @@
 #define PROS_USE_LITERALS
 
 #include "api.h"
-
+#include "globals.h"
 /**
  * You should add more #includes here
  */
@@ -59,16 +59,16 @@
  * that they can be called from user code (i.e. calling autonomous from a
  * button press in opcontrol() for testing purposes).
  */
-#ifdef __cplusplus
+//#ifdef __cplusplus
 extern "C" {
-#endif
+//#endif
 void autonomous(void);
 void initialize(void);
 void disabled(void);
 void competition_initialize(void);
 void opcontrol(void);
 #ifdef __cplusplus
-}
+
 #endif
 
 #ifdef __cplusplus
@@ -78,4 +78,4 @@ void opcontrol(void);
 //#include <iostream>
 #endif
 
-#endif  // _PROS_MAIN_H_
+}//#endif  // _PROS_MAIN_H_
