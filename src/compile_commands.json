@@ -63,11 +63,11 @@
             "-fdiagnostics-color",
             "--std=gnu++17",
             "-o",
-            "bin/opcontrol.cpp.o",
-            "src\\opcontrol.cpp"
+            "bin/globals.cpp.o",
+            "src\\globals.cpp"
         ],
         "directory": "C:\\Users\\VexLabUser\\Desktop\\Xbot\\src",
-        "file": "src\\opcontrol.cpp"
+        "file": "src\\globals.cpp"
     },
     {
         "arguments": [
@@ -98,11 +98,11 @@
             "-fdiagnostics-color",
             "--std=gnu++17",
             "-o",
-            "bin/globals.cpp.o",
-            "src\\globals.cpp"
+            "bin/opcontrol.cpp.o",
+            "src\\opcontrol.cpp"
         ],
         "directory": "C:\\Users\\VexLabUser\\Desktop\\Xbot\\src",
-        "file": "src\\globals.cpp"
+        "file": "src\\opcontrol.cpp"
     },
     {
         "arguments": [
