@@ -12,4 +12,6 @@
 void autonomous()
 {
 #include "main.h"
+#include "globals.h"
+lf_mtr.move_velocity(200);
 }
