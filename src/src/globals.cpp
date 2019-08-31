@@ -1,11 +1,13 @@
 #include "main.h"
+
 pros::Controller master (pros::E_CONTROLLER_MASTER);
 pros::Controller slave (pros::E_CONTROLLER_PARTNER);
-pros::Motor lf_mtr(1);
-pros::Motor lb_mtr(2);
-pros::Motor rf_mtr(3, true);
-pros::Motor rb_mtr(4, true);
-pros::Motor li_mtr(11);
-pros::Motor ri_mtr(12,true);
-pros::Motor a_mtr(14,36);
-pros::Motor t_mtr(13, 36);
+pros::Motor lfmtr(1);
+pros::Motor lbmtr(2);
+pros::Motor rfmtr(3, true);
+pros::Motor rbmtr(4, true);
+pros::Motor limtr(11,36);
+pros::Motor rimtr(12,36);
+pros::Motor amtr(14,36);
+pros::Motor tmtr(13, 36);
+pros::ADIAnalogIn pot(1);

@@ -10,8 +10,11 @@
  * from where it left off.
  */
  #include "main.h"
+#define ANALOG_SENSOR_PORT 1
 void autonomous()
 {
-
-
+if(pot.get_value()<2000)
+{
+  rfmtr.move_velocity(200);
+}
 }

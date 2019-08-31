@@ -22,10 +22,10 @@ void opcontrol() {
 		pros::lcd::print(0, "%d %d %d", (pros::lcd::read_buttons() & LCD_BTN_LEFT) >> 2,
 		                 (pros::lcd::read_buttons() & LCD_BTN_CENTER) >> 1,
 		                 (pros::lcd::read_buttons() & LCD_BTN_RIGHT) >> 0);
-    lf_mtr.move(master.get_analog(ANALOG_LEFT_Y));
-		lb_mtr.move(master.get_analog(ANALOG_LEFT_Y));
-		rf_mtr.move(master.get_analog(ANALOG_RIGHT_Y));
-		rf_mtr.move(master.get_analog(ANALOG_RIGHT_Y));
+    lfmtr.move(master.get_analog(ANALOG_LEFT_Y));
+		lbmtr.move(master.get_analog(ANALOG_LEFT_Y));
+		rfmtr.move(master.get_analog(ANALOG_RIGHT_Y));
+		rbmtr.move(master.get_analog(ANALOG_RIGHT_Y));
 		//drive train code
 if (state==0)
 {
@@ -37,8 +37,8 @@ if (state==0)
 	{
 		state = -1;
 	}
-	ri_mtr.move_velocity(0);
-	li_mtr.move_velocity(0);
+	rimtr.move_velocity(0);
+	limtr.move_velocity(0);
 }
 //deactivated intake
 else if(state==1)
@@ -51,8 +51,8 @@ else if(state==1)
 	{
 		state = -1;
 	}
-	ri_mtr.move_velocity(200);
-	li_mtr.move_velocity(200);
+	rimtr.move_velocity(200);
+	limtr.move_velocity(-200);
 }
 //active intake
 else
@@ -65,37 +65,60 @@ else
 	{
 		state = 0;
 	}
-	ri_mtr.move_velocity(-200);
-	li_mtr.move_velocity(-200);
+	rimtr.move_velocity(-20);
+	limtr.move_velocity(20);
 }
 //reversed intake
-if (master.get_digital(DIGITAL_L1))
+if(state==-2)
 {
-	t_mtr.move_velocity(50);
+	if (master.get_digital_new_press(DIGITAL_A))
+	{
+		state = 0;
+	}
+	if (master.get_digital_new_press(DIGITAL_A))
+	{
+		state = -2;
+	}
+  rimtr.move_velocity(-20);
+	limtr.move_velocity(20);
 }
-else if(master.get_digital(DIGITAL_L2))
+if (slave.get_digital(DIGITAL_L1))
 {
-	t_mtr.move_velocity(-50);
+	tmtr.move_velocity(50);
+}
+else if(slave.get_digital(DIGITAL_L2))
+{
+	tmtr.move_velocity(-50);
 }
 else
 {
-	t_mtr.move_velocity(0);
+	tmtr.move_velocity(0);
 }
 //temporary tray tilter controlls
 //will eventually be moved to partner controller as a backup
-if (master.get_digital(DIGITAL_UP))
+if (slave.get_digital(DIGITAL_UP))
 {
-	a_mtr.move_velocity(-50);
+	amtr.move_velocity(50);
 }
-else if(master.get_digital(DIGITAL_DOWN))
+else if(slave.get_digital(DIGITAL_DOWN))
 {
-	a_mtr.move_velocity(50);
+	amtr.move_velocity(-50);
 }
 else
 {
-	a_mtr.move_velocity(0);
+	amtr.move_velocity(0);
 pros::c::motor_set_brake_mode(14, MOTOR_BRAKE_HOLD);
 }
+
+pros::lcd::print(0, "Left Front Wheel: %lf\n", pros::c::motor_get_temperature(1));
+pros::lcd::print(1, "Left Back Wheel: %lf\n", pros::c::motor_get_temperature(2));
+pros::lcd::print(2, "Right Front Wheel: %lf\n", pros::c::motor_get_temperature(3));
+pros::lcd::print(3, "Right Back Wheel: %lf\n", pros::c::motor_get_temperature(4));
+pros::lcd::print(4, "Left Intake: %lf\n", pros::c::motor_get_temperature(11));
+pros::lcd::print(5, "Right Intake: %lf\n", pros::c::motor_get_temperature(12));
+pros::lcd::print(6, "Arm: %lf\n", pros::c::motor_get_temperature(13));
+pros::lcd::print(7, "Trey Tilter: %lf\n", pros::c::motor_get_temperature(14));
+
 		pros::delay(20);
 	}
 }

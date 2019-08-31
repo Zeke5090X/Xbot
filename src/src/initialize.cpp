@@ -18,13 +18,15 @@ void on_center_button() {
  */
 void initialize() {
 	pros::lcd::initialize();
-	pros::lcd::set_text(1, "what are you testing now?");
+
 
 	pros::lcd::register_btn1_cb(on_center_button);
 	pros::c::motor_set_brake_mode(1,MOTOR_BRAKE_COAST);
   pros::c::motor_set_brake_mode(2,MOTOR_BRAKE_COAST);
   pros::c::motor_set_brake_mode(3,MOTOR_BRAKE_COAST);
   pros::c::motor_set_brake_mode(4,MOTOR_BRAKE_COAST);
+
+  // All readings from then on will be calibrated
 }
 
 /**
@@ -32,7 +34,13 @@ void initialize() {
  * the VEX Competition Switch, following either autonomous or opcontrol. When
  * the robot is enabled, this task will exit.
  */
-void disabled() {}
+void disabled()
+{
+if (pot.get_value()<1)
+{
+	pros::lcd::print(1,"hey it works!");
+}
+}
 
 /**
  * Runs after initialize(), and before autonomous when connected to the Field
@@ -43,4 +51,15 @@ void disabled() {}
  * This task will exit when the robot is enabled and autonomous or opcontrol
  * starts.
  */
-void competition_initialize() {}
+void competition_initialize(){}
+/*lv_obj_t * myButton;
+lv_obj_t * myButtonLabel;
+lv_obj_t * myLabel;
+
+lv_style_t myButtonStyleREL; //released style
+lv_style_t myButtonStylePR; //pressed style
+
+static lv_res_t LV_BTN_ACTION_CLICK(lv_obj_t * btn)
+{
+}
+*/
