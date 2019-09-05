@@ -1,5 +1,4 @@
 #include "main.h"
-#include "globals.cpp"
 /**
  * Runs the operator control code. This function will be started in its own task
  * with the default priority and stack size whenever the robot is enabled via
@@ -37,6 +36,10 @@ if (state==0)
 	{
 		state = -1;
 	}
+	if (slave.get_digital_new_press(DIGITAL_R1))
+	{
+		state = -2;
+	}
 	ri_mtr.move_velocity(0);
 	li_mtr.move_velocity(0);
 }
@@ -51,11 +54,15 @@ else if(state==1)
 	{
 		state = -1;
 	}
+	if (slave.get_digital_new_press(DIGITAL_R1))
+	{
+		state = -2;
+	}
 	ri_mtr.move_velocity(200);
 	li_mtr.move_velocity(200);
 }
 //active intake
-else
+else if(state==-1)
 {
 	if (master.get_digital_new_press(DIGITAL_R1))
 	{
@@ -65,15 +72,37 @@ else
 	{
 		state = 0;
 	}
+	if (master.get_digital_new_press(DIGITAL_R1))
+	{
+		state = -2;
+	}
 	ri_mtr.move_velocity(-200);
 	li_mtr.move_velocity(-200);
 }
 //reversed intake
-if (master.get_digital(DIGITAL_L1))
+else
+{
+	if (master.get_digital_new_press(DIGITAL_R1))
+	{
+		state = 1;
+	}
+	if (master.get_digital_new_press(DIGITAL_R2))
+	{
+		state = -1;
+	}
+	if (slave.get_digital_new_press(DIGITAL_R1))
+	{
+		state = 0;
+	}
+	ri_mtr.move_velocity(-50);
+	li_mtr.move_velocity(-50);
+}
+
+if (slave.get_digital(DIGITAL_L1))
 {
 	t_mtr.move_velocity(50);
 }
-else if(master.get_digital(DIGITAL_L2))
+else if(slave.get_digital(DIGITAL_L2))
 {
 	t_mtr.move_velocity(-50);
 }
@@ -83,11 +112,11 @@ else
 }
 //temporary tray tilter controlls
 //will eventually be moved to partner controller as a backup
-if (master.get_digital(DIGITAL_UP))
+if (slave.get_digital(DIGITAL_UP))
 {
 	a_mtr.move_velocity(-50);
 }
-else if(master.get_digital(DIGITAL_DOWN))
+else if(slave.get_digital(DIGITAL_DOWN))
 {
 	a_mtr.move_velocity(50);
 }
@@ -96,6 +125,14 @@ else
 	a_mtr.move_velocity(0);
 pros::c::motor_set_brake_mode(14, MOTOR_BRAKE_HOLD);
 }
+pros::lcd::print(0, "Left Front Wheel: %lf\n", pros::c::motor_get_temperature(1));
+pros::lcd::print(1, "Left Back Wheel: %lf\n", pros::c::motor_get_temperature(2));
+pros::lcd::print(2, "Right Front Wheel: %lf\n", pros::c::motor_get_temperature(3));
+pros::lcd::print(3, "Right Back Wheel: %lf\n", pros::c::motor_get_temperature(4));
+pros::lcd::print(4, "Left Intake: %lf\n", pros::c::motor_get_temperature(11));
+pros::lcd::print(5, "Right Intake: %lf\n", pros::c::motor_get_temperature(12));
+pros::lcd::print(6, "Arm: %lf\n", pros::c::motor_get_temperature(13));
+pros::lcd::print(7, "Trey Tilter: %lf\n", pros::c::motor_get_temperature(14));
 		pros::delay(20);
 	}
 }

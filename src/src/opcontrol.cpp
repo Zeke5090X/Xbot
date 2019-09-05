@@ -27,61 +27,46 @@ void opcontrol() {
 		rfmtr.move(master.get_analog(ANALOG_RIGHT_Y));
 		rbmtr.move(master.get_analog(ANALOG_RIGHT_Y));
 		//drive train code
-if (state==0)
-{
-	if (master.get_digital_new_press(DIGITAL_R1))
-	{
-		state = 1;
-	}
-	if (master.get_digital_new_press(DIGITAL_R2))
-	{
-		state = -1;
-	}
-	rimtr.move_velocity(0);
-	limtr.move_velocity(0);
-}
-//deactivated intake
-else if(state==1)
-{
-	if (master.get_digital_new_press(DIGITAL_R1))
-	{
-		state = 0;
-	}
-	if (master.get_digital_new_press(DIGITAL_R2))
-	{
-		state = -1;
-	}
-	rimtr.move_velocity(200);
-	limtr.move_velocity(-200);
-}
-//active intake
-else
-{
-	if (master.get_digital_new_press(DIGITAL_R1))
-	{
-		state = 1;
-	}
-	if (master.get_digital_new_press(DIGITAL_R2))
-	{
-		state = 0;
-	}
-	rimtr.move_velocity(-20);
-	limtr.move_velocity(20);
-}
-//reversed intake
-if(state==-2)
-{
-	if (master.get_digital_new_press(DIGITAL_A))
-	{
-		state = 0;
-	}
-	if (master.get_digital_new_press(DIGITAL_A))
-	{
-		state = -2;
-	}
-  rimtr.move_velocity(-20);
-	limtr.move_velocity(20);
-}
+		if(master.get_digital_new_press(DIGITAL_R1))
+		{
+			state = 1;
+		}
+		if(master.get_digital_new_press(DIGITAL_R2))
+		{
+			state = -1;
+		}
+		if(master.get_digital_new_press(DIGITAL_L1))
+		{
+			state = 0;
+		}
+		if(master.get_digital_new_press(DIGITAL_L2))
+		{
+			state = -2;
+		}
+		if(state==0)
+		{
+			limtr.move(0);
+			rimtr.move(0);
+		}
+		else if(state==1)
+		{
+				limtr.move(127);
+				rimtr.move(-127);
+		}
+		else if(state==-1)
+		{
+			limtr.move(-127);
+			rimtr.move(127);
+		}
+		else
+		{
+			{
+				limtr.move_velocity(-20);
+				rimtr.move_velocity(20);
+			}
+
+		}
+
 if (slave.get_digital(DIGITAL_L1))
 {
 	tmtr.move_velocity(50);
@@ -119,6 +104,6 @@ pros::lcd::print(5, "Right Intake: %lf\n", pros::c::motor_get_temperature(12));
 pros::lcd::print(6, "Arm: %lf\n", pros::c::motor_get_temperature(13));
 pros::lcd::print(7, "Trey Tilter: %lf\n", pros::c::motor_get_temperature(14));
 
-		pros::delay(20);
+		pros::delay(30);
 	}
 }

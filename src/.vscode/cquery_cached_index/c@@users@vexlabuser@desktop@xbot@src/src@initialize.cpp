@@ -25,8 +25,9 @@ void initialize() {
   pros::c::motor_set_brake_mode(2,MOTOR_BRAKE_COAST);
   pros::c::motor_set_brake_mode(3,MOTOR_BRAKE_COAST);
   pros::c::motor_set_brake_mode(4,MOTOR_BRAKE_COAST);
-
-  // All readings from then on will be calibrated
+	pros::c::motor_set_brake_mode(11,MOTOR_BRAKE_HOLD);
+	pros::c::motor_set_brake_mode(13,MOTOR_BRAKE_HOLD);
+  
 }
 
 /**
